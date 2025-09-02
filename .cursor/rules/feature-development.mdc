@@ -1,0 +1,247 @@
+# Feature 개발 가이드
+
+## 🎯 Feature 개발 원칙
+
+### 1. Feature-Based Architecture
+
+각 Feature는 독립적인 모듈로 개발되어야 합니다:
+
+- 독립적인 네임스페이스
+- 자체 Controller와 View
+- 명확한 경계와 인터페이스
+
+### 2. MVC 패턴 적용
+
+```
+Feature/[FeatureName]/
+├── Controller/     # Model (비즈니스 로직)
+├── View/          # View (UI 및 시각적 요소)
+└── [FeatureName].unity  # 씬 파일
+```
+
+## 📁 Feature 구조 템플릿
+
+### 새 Feature 생성 시 따라야 할 구조:
+
+```
+Feature/[FeatureName]/
+├── Controller/
+│   ├── [FeatureName]Controller.cs
+│   └── [FeatureName]Controller.cs.meta
+├── View/
+│   ├── [FeatureName]Canvas.cs
+│   └── [FeatureName]Canvas.cs.meta
+├── [FeatureName].unity
+└── [FeatureName].unity.meta
+```
+
+### Controller 클래스 템플릿
+
+```csharp
+using Common.EventSystem;
+using UnityEngine;
+
+namespace Feature.[FeatureName].Controller
+{
+    /// <summary>
+    /// [FeatureName] 기능의 비즈니스 로직을 관리하는 컨트롤러
+    /// </summary>
+    public class [FeatureName]Controller : MonoBehaviour, IMonoEventListener
+    {
+        private void Start()
+        {
+            // 초기화 로직
+        }
+
+        /// <summary>
+        /// 이벤트 처리 메서드
+        /// </summary>
+        /// <param name="param">처리할 이벤트</param>
+        /// <returns>이벤트 체인 처리 결과</returns>
+        public EventChain OnEventHandle(IEvent param)
+        {
+            // 이벤트 처리 로직
+            return EventChain.Continue;
+        }
+    }
+}
+```
+
+### View 클래스 템플릿
+
+```csharp
+using Common.EventSystem;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Feature.[FeatureName].View
+{
+    /// <summary>
+    /// [FeatureName] 기능의 UI 이벤트를 정의하는 구조체
+    /// </summary>
+    public struct On[Action]Event : IEvent
+    {
+        // 필요한 데이터 추가
+    }
+
+    /// <summary>
+    /// [FeatureName] 기능의 UI를 관리하는 뷰 클래스
+    /// </summary>
+    public class [FeatureName]Canvas : MonoBehaviour, IMonoEventDispatcher
+    {
+        [SerializeField] private Button actionButton;
+
+        private void Awake()
+        {
+            // UI 이벤트 바인딩
+            if (actionButton != null)
+            {
+                actionButton.onClick.AddListener(this.Emit<On[Action]Event>);
+            }
+        }
+    }
+}
+```
+
+## 🔄 Feature 간 통신
+
+### 1. 이벤트 시스템 사용
+
+```csharp
+// 이벤트 정의
+public struct OnFeatureTransitionEvent : IEvent
+{
+    public string targetFeature;
+    public object data;
+}
+
+// 이벤트 발송
+this.Emit(new OnFeatureTransitionEvent
+{
+    targetFeature = "Play",
+    data = gameData
+});
+```
+
+### 2. 씬 전환
+
+```csharp
+using UnityEngine.AddressableAssets;
+using Common.Routes;
+
+// Addressables를 통한 씬 로딩
+Addressables.LoadSceneAsync(RouteNames.Play);
+```
+
+## 🎮 게임 Feature 예시
+
+### Home Feature
+
+- **목적**: 게임 시작 화면
+- **기능**: 게임 시작, 설정, 종료
+- **이벤트**: `OnClickStartGameEvent`, `OnClickSettingsEvent`
+
+### Play Feature
+
+- **목적**: 실제 게임 플레이
+- **기능**: 게임 로직, 플레이어 제어, 점수 관리
+- **이벤트**: `OnGameOverEvent`, `OnScoreChangedEvent`
+
+### Detail Feature
+
+- **목적**: 게임 결과 및 상세 정보
+- **기능**: 결과 표시, 재시작, 홈으로 돌아가기
+- **이벤트**: `OnRestartGameEvent`, `OnBackToHomeEvent`
+
+## 🧪 Feature 테스트
+
+### 단위 테스트
+
+```csharp
+using NUnit.Framework;
+using Feature.[FeatureName].Controller;
+
+namespace Tests.Feature.[FeatureName]
+{
+    [TestFixture]
+    public class [FeatureName]ControllerTests
+    {
+        [Test]
+        public void OnEventHandle_ValidEvent_ReturnsBreak()
+        {
+            // Arrange
+            var controller = new [FeatureName]Controller();
+            var testEvent = new On[Action]Event();
+
+            // Act
+            var result = controller.OnEventHandle(testEvent);
+
+            // Assert
+            Assert.AreEqual(EventChain.Break, result);
+        }
+    }
+}
+```
+
+### 통합 테스트
+
+```csharp
+[Test]
+public async Task FeatureTransition_ValidRoute_LoadsCorrectScene()
+{
+    // Arrange
+    var homeController = new HomeController();
+    var startGameEvent = new OnClickStartGameEvent();
+
+    // Act
+    homeController.OnEventHandle(startGameEvent);
+
+    // Assert
+    // 씬 로딩 확인 로직
+}
+```
+
+## 📋 Feature 개발 체크리스트
+
+### ✅ 필수 구현 사항
+
+- [ ] Controller 클래스 구현 (IMonoEventListener 상속)
+- [ ] View 클래스 구현 (IMonoEventDispatcher 상속)
+- [ ] 이벤트 구조체 정의
+- [ ] 씬 파일 생성
+- [ ] RouteNames에 씬 경로 추가
+- [ ] 네임스페이스 규칙 준수
+
+### ✅ 권장 구현 사항
+
+- [ ] XML 문서화 주석 작성
+- [ ] 단위 테스트 작성
+- [ ] README.md 파일 작성
+- [ ] 에러 처리 로직 구현
+- [ ] 로깅 추가
+
+### ✅ 성능 고려사항
+
+- [ ] 메모리 누수 방지
+- [ ] 불필요한 Update 호출 최소화
+- [ ] 에셋 로딩 최적화
+- [ ] UI 업데이트 최적화
+
+## 🚀 Feature 배포
+
+### Addressables 설정
+
+1. 씬을 Addressable Group에 추가
+2. 적절한 번들링 전략 설정
+3. 의존성 관리 확인
+
+### 빌드 설정
+
+1. 씬이 빌드 설정에 포함되었는지 확인
+2. 플랫폼별 설정 확인
+3. 에셋 번들 설정 확인
+   description:
+   globs:
+   alwaysApply: true
+
+---

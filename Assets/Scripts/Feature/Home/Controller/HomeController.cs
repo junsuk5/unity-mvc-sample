@@ -3,6 +3,7 @@ using Common.Routes;
 using Feature.Home.View;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 namespace Feature.Home.Controller
 {
@@ -22,8 +23,12 @@ namespace Feature.Home.Controller
             if (param is OnClickStartGameEvent)
             {
                 Debug.Log("OnClickStartGameEvent");
-                // SceneManager.LoadScene("Feature/Play/Play");
-                Addressables.LoadSceneAsync(RouteNames.Play);
+                SceneManager.LoadScene(RouteNames.Play);
+                // Addressables.LoadSceneAsync(RouteNames.Play);
+            }
+            else if (param is OnClickImageSearchEvent)
+            {
+                Debug.Log("OnClickImageSearchEvent");
             }
 
             return EventChain.Break;

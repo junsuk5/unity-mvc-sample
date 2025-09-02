@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd9b6266f65ef4d858b307d8b2538d3f
+    m_Address: Assets/Feature/Play/Play.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18584c50af96d408ea2693d3c2e657e7, type: 2}
   m_SchemaSet:

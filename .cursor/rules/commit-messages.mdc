@@ -1,0 +1,227 @@
+# 컨벤셔널 커밋 메시지 규칙
+
+## 📝 커밋 메시지 형식
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### 예시
+
+```
+feat(play): 플레이어 이동 시스템 추가
+
+- WASD 키 입력 처리
+- 플레이어 애니메이션 연동
+- 충돌 감지 시스템 구현
+
+Closes #123
+```
+
+## 🏷️ Type 분류
+
+### 주요 타입
+
+- `feat`: 새로운 기능 추가
+- `fix`: 버그 수정
+- `docs`: 문서 수정
+- `style`: 코드 포맷팅, 세미콜론 누락 등 (기능 변경 없음)
+- `refactor`: 코드 리팩토링
+- `test`: 테스트 추가 또는 수정
+- `chore`: 빌드 프로세스 또는 보조 도구 변경
+
+### Unity 특화 타입
+
+- `asset`: 에셋 추가/수정/삭제
+- `scene`: 씬 파일 변경
+- `prefab`: 프리팹 변경
+- `shader`: 셰이더 파일 변경
+- `config`: Unity 설정 파일 변경
+
+## 🎯 Scope 예시
+
+### Feature 기반
+
+- `home`: Home Feature 관련
+- `play`: Play Feature 관련
+- `detail`: Detail Feature 관련
+
+### 시스템 기반
+
+- `event`: 이벤트 시스템
+- `state`: 상태 머신 시스템
+- `route`: 라우팅 시스템
+- `ui`: UI 시스템
+
+### 예시
+
+```
+feat(play): 플레이어 점프 기능 추가
+fix(event): 이벤트 리스너 메모리 누수 수정
+refactor(state): 상태 머신 로직 개선
+```
+
+## 📋 커밋 메시지 작성 가이드
+
+### ✅ 좋은 예시
+
+```
+feat(play): 플레이어 이동 시스템 구현
+
+- WASD 키 입력 처리
+- 플레이어 애니메이션 연동
+- 충돌 감지 시스템 구현
+
+Closes #123
+```
+
+```
+fix(event): 이벤트 디스패처 null 참조 오류 수정
+
+- IMonoEventDispatcher null 체크 추가
+- 이벤트 리스너 등록 시 예외 처리 개선
+
+Fixes #456
+```
+
+```
+refactor(state): 상태 머신 로직 개선
+
+- 상태 전환 로직 단순화
+- 불필요한 중복 코드 제거
+- 성능 최적화
+
+BREAKING CHANGE: IState<T> 인터페이스 시그니처 변경
+```
+
+### ❌ 나쁜 예시
+
+```
+수정
+```
+
+```
+bug fix
+```
+
+```
+update
+```
+
+```
+wip
+```
+
+## 🔗 이슈 연결
+
+### 이슈 해결
+
+```
+Closes #123
+Fixes #456
+Resolves #789
+```
+
+### 이슈 참조
+
+```
+Related to #123
+See also #456
+```
+
+## 🚨 Breaking Changes
+
+### Breaking Change 표시
+
+```
+feat(state): 상태 머신 API 개선
+
+BREAKING CHANGE: IState<T> 인터페이스의 Enter 메서드 시그니처 변경
+- 이전: UniTask<T> Enter(T previousState)
+- 이후: UniTask<T> Enter(T previousState, StateContext context)
+```
+
+## 📊 커밋 히스토리 예시
+
+```
+feat(play): 플레이어 기본 이동 시스템 추가
+feat(play): 플레이어 점프 기능 구현
+fix(play): 플레이어 이동 시 충돌 감지 오류 수정
+refactor(play): 플레이어 컨트롤러 코드 정리
+test(play): 플레이어 이동 테스트 추가
+docs(play): 플레이어 시스템 README 작성
+```
+
+## 🎯 Unity 프로젝트 특화 규칙
+
+### 에셋 관련
+
+```
+asset(sprites): 플레이어 캐릭터 스프라이트 추가
+asset(audio): 배경음악 및 효과음 추가
+asset(materials): 플레이어 머티리얼 생성
+```
+
+### 씬 관련
+
+```
+scene(home): 홈 화면 UI 레이아웃 수정
+scene(play): 게임 플레이 씬 최적화
+scene(detail): 결과 화면 UI 개선
+```
+
+### 설정 관련
+
+```
+config(project): Unity 프로젝트 설정 변경
+config(build): 빌드 설정 최적화
+config(addressables): Addressables 그룹 설정 변경
+```
+
+## 📝 커밋 메시지 템플릿
+
+### 기능 추가
+
+```
+feat([scope]): [기능 설명]
+
+- [구현 내용 1]
+- [구현 내용 2]
+- [구현 내용 3]
+
+[이슈 연결]
+```
+
+### 버그 수정
+
+```
+fix([scope]): [버그 설명]
+
+- [수정 내용 1]
+- [수정 내용 2]
+- [수정 내용 3]
+
+Fixes #[이슈번호]
+```
+
+### 리팩토링
+
+```
+refactor([scope]): [리팩토링 설명]
+
+- [변경 내용 1]
+- [변경 내용 2]
+- [변경 내용 3]
+
+[Breaking Change 설명 (있는 경우)]
+```
+
+description:
+globs:
+alwaysApply: true
+
+---

@@ -1,0 +1,182 @@
+# C# 코딩 표준 (Unity)
+
+## 📝 네이밍 규칙
+
+### 클래스 및 인터페이스
+
+- 클래스: PascalCase (예: `PlayerController`, `GameManager`)
+- 인터페이스: `I` 접두사 + PascalCase (예: `IEvent`, `IState<T>`)
+- 추상 클래스: PascalCase (예: `RouteNames`)
+
+### 메서드 및 속성
+
+- Public 메서드: PascalCase (예: `OnEventHandle`, `Execute`)
+- Private 메서드: camelCase (예: `handleInput`, `updatePosition`)
+- 속성: PascalCase (예: `gameObject`, `isLogging`)
+
+### 변수
+
+- Public 필드: PascalCase
+- Private 필드: camelCase (예: `previousState`, `currentState`)
+- 상수: UPPER_SNAKE_CASE (예: `MAX_COUNT`, `DEFAULT_DELAY`)
+
+## 🔧 Unity 특화 규칙
+
+### MonoBehaviour 사용
+
+```csharp
+// ✅ 올바른 예시
+public class PlayerController : MonoBehaviour
+{
+    [SerializeField] private Button playButton;
+
+    private void Awake()
+    {
+        // 초기화 로직
+    }
+
+    private void Start()
+    {
+        // 시작 로직
+    }
+}
+```
+
+### 이벤트 시스템
+
+```csharp
+// 이벤트 구조체 정의
+public struct OnClickStartGameEvent : IEvent
+{
+}
+
+// 이벤트 디스패처 구현
+public class HomeCanvas : MonoBehaviour, IMonoEventDispatcher
+{
+    [SerializeField] private Button playButton;
+
+    private void Awake()
+    {
+        playButton.onClick.AddListener(this.Emit<OnClickStartGameEvent>);
+    }
+}
+
+// 이벤트 리스너 구현
+public class HomeController : MonoBehaviour, IMonoEventListener
+{
+    public EventChain OnEventHandle(IEvent param)
+    {
+        if (param is OnClickStartGameEvent)
+        {
+            // 이벤트 처리
+            return EventChain.Break;
+        }
+        return EventChain.Continue;
+    }
+}
+```
+
+### 상태 머신 패턴
+
+```csharp
+// 상태 인터페이스 구현
+public class PlayerState : IState<PlayerState>
+{
+    protected PlayerController player;
+
+    public PlayerState(PlayerController player)
+    {
+        this.player = player;
+    }
+
+    public virtual UniTask<PlayerState> Enter(PlayerState previousState)
+        => UniTask.FromResult<PlayerState>(null);
+
+    public virtual UniTask Exit(PlayerState nextState)
+        => UniTask.CompletedTask;
+}
+```
+
+## 🚀 성능 최적화
+
+### 메모리 관리
+
+- `using` 문 사용으로 리소스 해제
+- 오브젝트 풀링 고려
+- 불필요한 GC 할당 방지
+
+### 비동기 프로그래밍
+
+- UniTask 사용 권장
+- `async/await` 패턴 활용
+- 코루틴 대신 UniTask 선호
+
+## 📚 문서화
+
+### XML 문서화
+
+```csharp
+/// <summary>
+/// 플레이어의 상태를 관리하는 상태 머신
+/// </summary>
+/// <typeparam name="T">상태 타입</typeparam>
+public interface IState<T>
+{
+    /// <summary>
+    /// 상태에 진입할 때 호출됩니다
+    /// </summary>
+    /// <param name="previousState">이전 상태</param>
+    /// <returns>다음 상태 또는 null (종료)</returns>
+    UniTask<T> Enter(T previousState);
+
+    /// <summary>
+    /// 상태를 나갈 때 호출됩니다
+    /// </summary>
+    /// <param name="nextState">다음 상태</param>
+    UniTask Exit(T nextState);
+}
+```
+
+### 인라인 주석
+
+```csharp
+// 상태 머신 실행
+while (currentState != null)
+{
+    // 이전 상태 종료 처리
+    if (previousState != null)
+    {
+        await previousState.Exit(currentState);
+    }
+
+    // 로깅 (디버그 모드에서만)
+    if (isLogging)
+    {
+        Debug.Log($"새로운 상태 진입: {currentState.GetType().Name}");
+    }
+
+    // 현재 상태 실행 및 다음 상태 결정
+    var nextState = await currentState.Enter(previousState);
+    previousState = currentState;
+    currentState = nextState;
+}
+```
+
+## 🧪 테스트
+
+### 단위 테스트
+
+- 각 Feature별 테스트 작성
+- Mock 객체 활용
+- 비동기 테스트 고려
+
+### 통합 테스트
+
+- 씬 간 전환 테스트
+- 이벤트 시스템 테스트
+- 상태 머신 테스트
+  description:
+  globs:
+  alwaysApply: true
+
+---
