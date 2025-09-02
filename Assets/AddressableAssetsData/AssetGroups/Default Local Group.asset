@@ -31,7 +31,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd9b6266f65ef4d858b307d8b2538d3f
-    m_Address: Assets/Feature/Play/Play.unity
+    m_Address: PlayScene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
