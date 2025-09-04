@@ -162,3 +162,8 @@ obj/
 .vscode/
 *.csproj
 *.sln
+
+# NuGet packages
+Packages/
+*.nupkg
+*.snupkg
