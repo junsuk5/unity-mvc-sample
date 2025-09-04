@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: f223f8c59dc1c4853ac38b2962e8d193
   m_SerializeEntries:
+  - m_GUID: 10f4af3d1be664190924a2ee299bdb31
+    m_Address: Assets/Scripts/Feature/Search/Search.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 46cd93030527f44c8834b05b85bb66d1
     m_Address: Assets/Sprites/play_bg.png
     m_ReadOnly: 0

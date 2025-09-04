@@ -29,6 +29,7 @@ namespace Feature.Home.Controller
             else if (param is OnClickImageSearchEvent)
             {
                 Debug.Log("OnClickImageSearchEvent");
+                SceneManager.LoadScene(RouteNames.Search);
             }
 
             return EventChain.Break;

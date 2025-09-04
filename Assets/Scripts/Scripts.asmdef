@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Unity.Addressables",
-        "UniTask"
+        "UniTask",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
