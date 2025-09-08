@@ -1,3 +1,4 @@
+using System;
 using Common;
 using Common.EventSystem;
 using Cysharp.Threading.Tasks;
@@ -20,12 +21,18 @@ namespace Feature.Search.View
 
     public class ImageGridItem : MonoBehaviour, IMonoEventDispatcher
     {
-        [SerializeField] private RawImage imageDisplay;
-        [SerializeField] private TextMeshProUGUI tagsText;
-        [SerializeField] private TextMeshProUGUI statsText;
-        [SerializeField] private Button imageButton;
+        private RawImage _imageDisplay;
+        private Button _imageButton;
+        // [SerializeField] private TextMeshProUGUI tagsText;
+        // [SerializeField] private TextMeshProUGUI statsText;
 
         private ImageDto _imageData;
+
+        private void Awake()
+        {
+            _imageDisplay = GetComponentInChildren<RawImage>();
+            _imageButton = GetComponentInChildren<Button>();
+        }
 
         public async UniTask Initialize(ImageDto imageDto, IImageDownloader downloader)
         {
@@ -39,12 +46,12 @@ namespace Feature.Search.View
             var texture = await downloader.DownloadImageAsync(imageDto.previewURL);
             if (texture != null)
             {
-                imageDisplay.texture = texture;
-                imageDisplay.SetNativeSize();
+                _imageDisplay.texture = texture;
+                _imageDisplay.SetNativeSize();
             }
 
             // 클릭 이벤트
-            // imageButton.onClick.AddListener(OnImageClick);
+            _imageButton.onClick.AddListener(OnImageClick);
         }
 
         private void OnImageClick()

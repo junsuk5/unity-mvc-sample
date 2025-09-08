@@ -1800,7 +1800,7 @@ GameObject:
   - component: {fileID: 1494519567}
   - component: {fileID: 1494519569}
   m_Layer: 5
-  m_Name: Content
+  m_Name: ItemGridView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1875,7 +1875,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3399e38f9c491fac5c85d62fc0a374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridContainer: {fileID: 1296018836}
   itemPrefab: {fileID: 823550249774877874, guid: 3d52ba8418d084b849d08986425b3c6e, type: 3}
   scrollRect: {fileID: 1029805819}
 --- !u!1 &1724301721

@@ -1,7 +1,7 @@
 using Common.EventSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Feature.Search.View
 {
@@ -24,7 +24,7 @@ namespace Feature.Search.View
         {
             _searchInputField = GetComponentInChildren<TMP_InputField>();
             _searchButton = GetComponentInChildren<Button>();
-            
+
             _searchButton.onClick.AddListener(OnSearch);
         }
 
