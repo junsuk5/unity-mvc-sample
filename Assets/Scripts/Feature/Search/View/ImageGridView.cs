@@ -9,9 +9,9 @@ namespace Feature.Search.View
 {
     public class ImageGridView : MonoBehaviour
     {
-        [SerializeField] private Transform gridContainer;
         [SerializeField] private ImageGridItem itemPrefab;
-        [SerializeField] private ScrollRect scrollRect;
+
+        private ScrollRect _scrollRect;
 
         private readonly List<ImageGridItem> _activeItems = new();
         private IImageDownloader _imageDownloader;
@@ -19,6 +19,7 @@ namespace Feature.Search.View
         private void Awake()
         {
             _imageDownloader = new UnityWebRequestImageDownloader();
+            _scrollRect = GetComponentInParent<ScrollRect>();
         }
 
         public async UniTask DisplayImages(List<ImageDto> images)
@@ -27,13 +28,13 @@ namespace Feature.Search.View
 
             foreach (var imageDto in images)
             {
-                var item = Instantiate(itemPrefab, gridContainer);
+                var item = Instantiate(itemPrefab, transform);
                 await item.Initialize(imageDto, _imageDownloader);
                 _activeItems.Add(item);
             }
 
             // 스크롤을 맨 위로
-            scrollRect.verticalNormalizedPosition = 1f;
+            _scrollRect.verticalNormalizedPosition = 1f;
         }
 
         private void ClearGrid()

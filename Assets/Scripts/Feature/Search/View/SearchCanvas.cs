@@ -17,19 +17,22 @@ namespace Feature.Search.View
 
     public class SearchCanvas : MonoBehaviour, IMonoEventDispatcher
     {
-        [SerializeField] private TMP_InputField searchInputField;
-        [SerializeField] private Button searchButton;
+        private TMP_InputField _searchInputField;
+        private Button _searchButton;
 
         private void Awake()
         {
-            searchButton.onClick.AddListener(OnSearch);
+            _searchInputField = GetComponentInChildren<TMP_InputField>();
+            _searchButton = GetComponentInChildren<Button>();
+            
+            _searchButton.onClick.AddListener(OnSearch);
         }
 
         private void OnSearch()
         {
-            if (string.IsNullOrEmpty(searchInputField.text)) return;
+            if (string.IsNullOrEmpty(_searchInputField.text)) return;
 
-            this.Emit(new OnClickSearchButton(searchInputField.text));
+            this.Emit(new OnClickSearchButton(_searchInputField.text));
         }
     }
 }
