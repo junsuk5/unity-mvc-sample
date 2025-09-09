@@ -9,7 +9,7 @@ namespace Feature.Search.View
 {
     public class ImageGridView : MonoBehaviour
     {
-        [SerializeField] private ImageGridItem itemPrefab;
+        private ImageGridItem _itemPrefab;
 
         private ScrollRect _scrollRect;
 
@@ -20,15 +20,40 @@ namespace Feature.Search.View
         {
             _imageDownloader = new UnityWebRequestImageDownloader();
             _scrollRect = GetComponentInParent<ScrollRect>();
+            
+            LoadPrefab();
+        }
+        
+        private void LoadPrefab()
+        {
+            // Resources 폴더에서 기존 프리팹 로드
+            var prefabResource = Resources.Load<GameObject>("ImageGridItem");
+            
+            if (prefabResource != null)
+            {
+                _itemPrefab = prefabResource.GetComponent<ImageGridItem>();
+            }
+            else
+            {
+                Debug.LogError("Failed to load ImageGridItem prefab from Resources.");
+            }
         }
 
         public async UniTask DisplayImages(List<ImageDto> images)
         {
+            // null 안전성 확인
+            if (_itemPrefab == null)
+            {
+                Debug.LogError("ItemPrefab is null. Cannot display images.");
+                return;
+            }
+
             ClearGrid();
 
             foreach (var imageDto in images)
             {
-                var item = Instantiate(itemPrefab, transform);
+                var item = Instantiate(_itemPrefab, transform);
+                // 프리팹에서 생성된 아이템은 이미 활성화 상태
                 await item.Initialize(imageDto, _imageDownloader);
                 _activeItems.Add(item);
             }

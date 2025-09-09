@@ -2,7 +2,6 @@ using Common.EventSystem;
 using Common.Routes;
 using Feature.Home.View;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 namespace Feature.Home.Controller
