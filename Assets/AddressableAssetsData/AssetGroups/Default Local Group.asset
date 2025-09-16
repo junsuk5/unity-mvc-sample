@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d52ba8418d084b849d08986425b3c6e
+    m_Address: ImageGridItem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 46cd93030527f44c8834b05b85bb66d1
     m_Address: Assets/Sprites/play_bg.png
     m_ReadOnly: 0
