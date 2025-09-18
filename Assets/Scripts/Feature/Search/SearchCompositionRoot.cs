@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Data.DataSource;
 using Data.Repository;
 using Feature.Search.Controller;
@@ -9,16 +10,15 @@ namespace Feature.Search
     public class SearchCompositionRoot : MonoBehaviour
     {
         [SerializeField] private SearchController searchController;
-        [SerializeField] private ImageDataSourceAsset imageDataSource;
-        
+        [SerializeField] private bool useMock;
+
         private IImageRepository _imageRepository;
 
         private void Awake()
         {
             Debug.Assert(searchController != null, "SearchController 참조가 필요합니다.");
-            Debug.Assert(imageDataSource != null, "ImageDataSource 자산이 필요합니다.");
 
-            _imageRepository = new ImageRepository(imageDataSource);
+            _imageRepository = new ImageRepository(useMock ? new MockImageDataSource() : new PixabayImageDataSource());
             searchController.Initialize(_imageRepository);
         }
     }

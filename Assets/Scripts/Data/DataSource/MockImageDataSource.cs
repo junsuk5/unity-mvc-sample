@@ -5,23 +5,24 @@ using UnityEngine;
 
 namespace Data.DataSource
 {
-    [CreateAssetMenu(
-        fileName = "MockImageDataSource",
-        menuName = "Data/ImageDataSource/Mock")]
-    public class MockImageDataSource : ImageDataSourceAsset
+    // [CreateAssetMenu(
+    //     fileName = "MockImageDataSource",
+    //     menuName = "Data/ImageDataSource/Mock")]
+    // public class MockImageDataSource : ImageDataSourceAsset
+    public class MockImageDataSource : IImageDataSource
     {
-        [SerializeField] private TextAsset jsonTextAsset;
+        // [SerializeField] private TextAsset jsonTextAsset;
         
-        public override async UniTask<ImageResponse> GetImageAsync(string query)
+        public async UniTask<ImageResponse> GetImageAsync(string query)
         {
-            Debug.Assert(jsonTextAsset != null, "mock JSON이 필요합니다.");
+            // Debug.Assert(jsonTextAsset != null, "mock JSON이 필요합니다.");
             
-            // TextAsset jsonTextAsset = Resources.Load<TextAsset>("mockdata");
-            // if (jsonTextAsset == null)
-            // {
-            //     throw new System.IO.FileNotFoundException(
-            //         $"Mock JSON file 'mockdata.json' not found in Resources folder.");
-            // }
+            TextAsset jsonTextAsset = Resources.Load<TextAsset>("mockdata");
+            if (jsonTextAsset == null)
+            {
+                throw new System.IO.FileNotFoundException(
+                    $"Mock JSON file 'mockdata.json' not found in Resources folder.");
+            }
 
             string jsonString = jsonTextAsset.text;
 

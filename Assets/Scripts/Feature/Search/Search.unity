@@ -1142,6 +1142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3399e38f9c491fac5c85d62fc0a374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollRect: {fileID: 1029805819}
 --- !u!1 &1043325675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,7 +1906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   searchController: {fileID: 1825299104}
-  imageDataSource: {fileID: 11400000, guid: 840066a642f1e4fb6bb6eb942d6f714a, type: 2}
+  useMock: 1
 --- !u!4 &1572565653
 Transform:
   m_ObjectHideFlags: 0
