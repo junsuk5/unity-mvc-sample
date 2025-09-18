@@ -22,22 +22,16 @@ namespace Feature.Home.View
 
         private void Awake()
         {
+            Debug.Assert(playButton != null, "playButton != null");
+            Debug.Assert(imageSearchButton != null, "imageSearchButton != null");
+            Debug.Assert(buttonCanvasGroup != null, "buttonCanvasGroup != null");
+            
             // 버튼을 처음에 투명하게 설정
-            if (buttonCanvasGroup != null)
-            {
-                buttonCanvasGroup.alpha = 0f;
-                buttonCanvasGroup.interactable = false;
-            }
+            buttonCanvasGroup.alpha = 0f;
+            buttonCanvasGroup.interactable = false;
 
-            if (playButton != null)
-            {
-                playButton.onClick.AddListener(this.Emit<OnClickStartGameEvent>);
-            }
-
-            if (imageSearchButton != null)
-            {
-                imageSearchButton.onClick.AddListener(this.Emit<OnClickImageSearchEvent>);
-            }
+            playButton.onClick.AddListener(this.Emit<OnClickStartGameEvent>);
+            imageSearchButton.onClick.AddListener(this.Emit<OnClickImageSearchEvent>);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
