@@ -1,7 +1,6 @@
 using System;
 using Common.EventSystem;
 using Cysharp.Threading.Tasks;
-using Data.DataSource;
 using Data.Repository;
 using Feature.Search.View;
 using UnityEngine;
@@ -14,10 +13,9 @@ namespace Feature.Search.Controller
 
         private IImageRepository _imageRepository;
 
-        private void Start()
+        public void Initialize(IImageRepository imageRepository)
         {
-            // _imageRepository = new ImageRepository(new MockImageDataSource());
-            _imageRepository = new ImageRepository(new PixabayImageDataSource());
+            _imageRepository = imageRepository;
         }
 
         public EventChain OnEventHandle(IEvent param)

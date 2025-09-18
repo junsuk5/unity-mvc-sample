@@ -1,9 +1,7 @@
-using System;
-using Common;
 using Common.EventSystem;
+using Common.Service;
 using Cysharp.Threading.Tasks;
 using Data.Dto;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 

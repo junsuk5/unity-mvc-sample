@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Common
+namespace Common.Service
 {
     public interface IImageDownloader
     {

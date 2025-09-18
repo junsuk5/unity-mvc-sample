@@ -5,19 +5,26 @@ using UnityEngine;
 
 namespace Data.DataSource
 {
-    public class MockImageDataSource: IImageDataSource
+    [CreateAssetMenu(
+        fileName = "MockImageDataSource",
+        menuName = "Data/ImageDataSource/Mock")]
+    public class MockImageDataSource : ImageDataSourceAsset
     {
-        public async UniTask<ImageResponse> GetImageAsync(string query)
+        [SerializeField] private TextAsset jsonTextAsset;
+        
+        public override async UniTask<ImageResponse> GetImageAsync(string query)
         {
-            TextAsset jsonTextAsset = Resources.Load<TextAsset>("mockdata");
+            Debug.Assert(jsonTextAsset != null, "mock JSON이 필요합니다.");
             
-            if (jsonTextAsset == null)
-            {
-                throw new System.IO.FileNotFoundException($"Mock JSON file 'mockdata.json' not found in Resources folder.");
-            }
+            // TextAsset jsonTextAsset = Resources.Load<TextAsset>("mockdata");
+            // if (jsonTextAsset == null)
+            // {
+            //     throw new System.IO.FileNotFoundException(
+            //         $"Mock JSON file 'mockdata.json' not found in Resources folder.");
+            // }
 
             string jsonString = jsonTextAsset.text;
-        
+
             // 목 데이터는 항상 성공적인 응답을 반환한다고 가정
             var mockResponse = new ImageResponse(
                 statusCode: 200,

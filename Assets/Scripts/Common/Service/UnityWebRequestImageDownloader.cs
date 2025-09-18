@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Common
+namespace Common.Service
 {
     public class UnityWebRequestImageDownloader : IImageDownloader
     {

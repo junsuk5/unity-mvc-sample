@@ -21,7 +21,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3d52ba8418d084b849d08986425b3c6e
-    m_Address: ImageGridItem
+    m_Address: UI/ImageGridItem
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -32,6 +32,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7d4f004b3dc184f9d9bf996dca8bdb5a
     m_Address: Assets/Sprites/bg.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 840066a642f1e4fb6bb6eb942d6f714a
+    m_Address: Assets/MockImageDataSource.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fbb427b8e29143df9c4be4646d661f0
+    m_Address: Assets/DataSource/PixabayImageDataSource.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Common;
+using Common.Service;
 using Cysharp.Threading.Tasks;
 using Data.Dto;
 using UnityEngine;
@@ -11,7 +11,7 @@ namespace Feature.Search.View
     {
         private ImageGridItem _itemPrefab;
 
-        private ScrollRect _scrollRect;
+        [SerializeField] private ScrollRect scrollRect;
 
         private readonly List<ImageGridItem> _activeItems = new();
         private IImageDownloader _imageDownloader;
@@ -19,7 +19,6 @@ namespace Feature.Search.View
         private void Awake()
         {
             _imageDownloader = new UnityWebRequestImageDownloader();
-            _scrollRect = GetComponentInParent<ScrollRect>();
             
             LoadPrefab();
         }
@@ -52,14 +51,14 @@ namespace Feature.Search.View
 
             foreach (var imageDto in images)
             {
-                var item = Instantiate(_itemPrefab, transform);
+                var item = Instantiate(_itemPrefab, scrollRect.content, false);
                 // 프리팹에서 생성된 아이템은 이미 활성화 상태
                 await item.Initialize(imageDto, _imageDownloader);
                 _activeItems.Add(item);
             }
 
             // 스크롤을 맨 위로
-            _scrollRect.verticalNormalizedPosition = 1f;
+            scrollRect.verticalNormalizedPosition = 1f;
         }
 
         private void ClearGrid()
