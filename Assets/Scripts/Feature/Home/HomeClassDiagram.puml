@@ -1,0 +1,41 @@
+@startuml
+set namespaceSeparator none
+skinparam packageStyle rectangle
+
+package "Feature.Home.View" as FHView {
+    class HomeCanvas {
+        - Button playButton
+        - CanvasGroup buttonCanvasGroup
+        - Button imageSearchButton
+        + Awake(): void
+        + Start(): void
+    }
+
+    class OnClickStartGameEvent <<struct>>
+    class OnClickImageSearchEvent <<struct>>
+}
+
+package "Feature.Home.Controller" as FHController {
+    class HomeController {
+        + OnEventHandle(param: IEvent): EventChain
+    }
+}
+
+package "Common.EventSystem" as CommonEvent {
+    interface IMonoEventDispatcher
+    interface IMonoEventListener
+    interface IEvent
+    enum EventChain
+}
+
+HomeCanvas ..|> IMonoEventDispatcher
+HomeCanvas ..> UniTask
+
+OnClickStartGameEvent ..|> IEvent
+OnClickImageSearchEvent ..|> IEvent
+
+HomeController ..|> IMonoEventListener
+HomeController ..> OnClickStartGameEvent
+HomeController ..> OnClickImageSearchEvent
+HomeController ..> EventChain
+@enduml
