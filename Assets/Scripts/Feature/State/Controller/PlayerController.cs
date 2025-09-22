@@ -29,22 +29,22 @@ namespace Feature.State.Controller
 
         private Rigidbody2D _rigidbody2D;
 
-        public bool IsGrounded { get; private set; }
+        public bool IsGrounded;
 
         private void Awake()
         {
             _stateMachine = new StateMachine(isLogging: true);
-            _rigidbody2D = GetComponent<Rigidbody2D>();
+            _rigidbody2D = playerView.GetComponent<Rigidbody2D>();
         }
 
         private void Start()
         {
-            _stateMachine.Execute<PlayerStateBase>(new IdleState()).Forget();
+            _stateMachine.Execute<PlayerStateBase>(new IdleState(this)).Forget();
         }
 
         private void Update()
         {
-            IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+            // IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         }
 
         public void Jump()
@@ -53,6 +53,11 @@ namespace Feature.State.Controller
             playerView.PlayJumpAnimation();
             // 점프 물리 적용
             _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+
+        public void Idle()
+        {
+            playerView.PlayIdleAnimation();
         }
 
         public EventChain OnEventHandle(IEvent param)
