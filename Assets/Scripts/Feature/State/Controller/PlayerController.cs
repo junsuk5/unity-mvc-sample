@@ -17,19 +17,14 @@ namespace Feature.State.Controller
         [SerializeField] private PlayerModel playerModel;
 
         [SerializeField] private PlayerInputHandler playerInputHandler;
-        [SerializeField] private PlayerHitDetector playerHitDetector;
 
-        [Header("Ground Check")] [SerializeField]
-        private Transform groundCheck;
-
-        [SerializeField] private float groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask groundLayer;
 
         private StateMachine _stateMachine;
 
         private Rigidbody2D _rigidbody2D;
 
-        public bool IsGrounded;
+        public bool IsGrounded { get; private set; }
 
         private void Awake()
         {
@@ -42,11 +37,6 @@ namespace Feature.State.Controller
             _stateMachine.Execute<PlayerStateBase>(new IdleState(this)).Forget();
         }
 
-        private void Update()
-        {
-            // IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        }
-
         public void Jump()
         {
             // 점프 애니메이션 재생
@@ -57,6 +47,7 @@ namespace Feature.State.Controller
 
         public void Idle()
         {
+            IsGrounded = false;
             playerView.PlayIdleAnimation();
         }
 
@@ -75,6 +66,10 @@ namespace Feature.State.Controller
 
                 case PlayerDiedEvent:
                     // 죽음 처리
+                    return EventChain.Break;
+
+                case PlayerGroundContactEvent:
+                    IsGrounded = true;
                     return EventChain.Break;
             }
 
