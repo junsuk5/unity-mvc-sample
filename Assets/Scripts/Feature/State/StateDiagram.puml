@@ -1,0 +1,74 @@
+@startuml
+'skinparam backgroundColor #1e1e1e
+'skinparam class {
+'  BackgroundColor #202020
+'  BorderColor #9cdcfe
+'  ArrowColor #9cdcfe
+'  FontColor #d4d4d4
+'}
+'skinparam interfaceBackgroundColor #202020
+'skinparam interfaceFontColor #d4d4d4
+
+package "Common.EventSystem" {
+  interface IMonoEventListener
+  interface IMonoEventDispatcher
+}
+
+package "Common.StatementSystem" {
+  interface "IState<T>"
+}
+
+package "Feature.State.Model" {
+  class PlayerModel {
+    +ApplyDamage(amount: int)
+  }
+  class PlayerHealthChangedEvent <<struct>>
+  class PlayerDiedEvent <<struct>>
+}
+
+package "Feature.State.View" {
+  class PlayerView
+  class StateCanvas
+  class EnemyView
+}
+
+package "Feature.State.Controller" {
+  class PlayerController {
+    +Jump()
+    +IsGrounded: bool
+  }
+  class PlayerInputHandler
+  class PlayerHitDetector
+  abstract class PlayerStateBase
+  class IdleState
+  class JumpState
+  class DiedState
+  class PlayerDamagedEvent <<struct>>
+  class PlayerJumpEvent <<struct>>
+}
+
+PlayerController ..|> IMonoEventListener
+PlayerController --> PlayerView
+PlayerController --> PlayerModel
+PlayerController --> PlayerInputHandler
+PlayerController --> PlayerHitDetector
+PlayerController --> PlayerStateBase : manages
+
+PlayerInputHandler ..|> IMonoEventDispatcher
+PlayerHitDetector ..|> IMonoEventDispatcher
+PlayerModel ..|> IMonoEventDispatcher
+
+PlayerStateBase ..|> "IState<PlayerStateBase>"
+IdleState --|> PlayerStateBase
+JumpState --|> PlayerStateBase
+DiedState --|> PlayerStateBase
+
+JumpState --> PlayerController : uses
+DiedState --> PlayerController : uses
+
+PlayerInputHandler --> PlayerJumpEvent : emits
+PlayerHitDetector --> PlayerDamagedEvent : emits
+PlayerModel --> PlayerHealthChangedEvent : emits
+PlayerModel --> PlayerDiedEvent : emits
+
+@enduml
