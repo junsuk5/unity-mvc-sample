@@ -18,6 +18,10 @@ namespace Feature.Home.View
     {
     }
 
+    public struct OnClickHelpEvent : IEvent
+    {
+    }
+
     public class HomeCanvas : MonoBehaviour, IMonoEventDispatcher
     {
         [SerializeField] private Button playButton;
@@ -25,6 +29,7 @@ namespace Feature.Home.View
 
         [SerializeField] private Button imageSearchButton;
         [SerializeField] private Button increaseButton;
+        [SerializeField] private Button helpButton;
 
         private void Awake()
         {
@@ -32,6 +37,7 @@ namespace Feature.Home.View
             Debug.Assert(buttonCanvasGroup != null);
             Debug.Assert(imageSearchButton != null);
             Debug.Assert(increaseButton != null);
+            Debug.Assert(helpButton != null);
 
             // 버튼을 처음에 투명하게 설정
             buttonCanvasGroup.alpha = 0f;
@@ -40,6 +46,7 @@ namespace Feature.Home.View
             playButton.onClick.AddListener(this.Emit<OnClickStartGameEvent>);
             imageSearchButton.onClick.AddListener(this.Emit<OnClickImageSearchEvent>);
             increaseButton.onClick.AddListener(this.Emit<OnClickIncreaseEvent>);
+            helpButton.onClick.AddListener(this.Emit<OnClickHelpEvent>);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created

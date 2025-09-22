@@ -42,6 +42,11 @@ namespace Feature.Home.Controller
                     Debug.Log("OnClickIncreaseEvent");
                     _model.Increment();
                     return EventChain.Break;
+
+                case OnClickHelpEvent:
+                    Debug.Log("OnClickHelpEvent");
+                    // TODO: 도움말 화면 표시 로직 구현
+                    return EventChain.Break;
             }
 
             return EventChain.Continue;
