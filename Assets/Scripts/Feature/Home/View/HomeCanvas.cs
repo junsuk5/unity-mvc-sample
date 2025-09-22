@@ -13,7 +13,7 @@ namespace Feature.Home.View
     public struct OnClickImageSearchEvent : IEvent
     {
     }
-    
+
     public struct OnClickIncreaseEvent : IEvent
     {
     }
@@ -63,9 +63,5 @@ namespace Feature.Home.View
             increaseButton.GetComponentInChildren<TextMeshProUGUI>().text = count.ToString();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        }
     }
 }
