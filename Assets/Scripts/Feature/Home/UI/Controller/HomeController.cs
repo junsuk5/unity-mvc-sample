@@ -1,14 +1,25 @@
+using System;
+using System.Threading;
 using Common.EventSystem;
 using Common.Routes;
-using Feature.Home.Model;
-using Feature.Home.View;
+using Cysharp.Threading.Tasks;
+using Feature.Home.Data.Model;
+using Feature.Home.Data.Repository;
+using Feature.Home.UI.Model;
+using Feature.Home.UI.View;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Feature.Home.Controller
+namespace Feature.Home.UI.Controller
 {
     public class HomeController : MonoBehaviour, IMonoEventListener
     {
+        // Repository
+        private IHomeInfoRepository _homeInfoRepository;
+
+        // Stream cancel token
+        private CancellationTokenSource _getHomeInfoStreamCancelToken;
+
         [SerializeField] private HomeCanvas _view;
         private CounterModel _model;
 
@@ -16,12 +27,25 @@ namespace Feature.Home.Controller
         {
             Debug.Assert(_view != null, "HomeCanvas 참조가 필요합니다.");
 
-            _model = new CounterModel(0, UpdateUI);
+            _model = new CounterModel(0);
+
+            // Repository
+            _homeInfoRepository = new MockHomeInfoRepository();
         }
 
-        private void UpdateUI(int count)
+        private async void Start()
         {
-            _view.UpdateCount(count);
+            _getHomeInfoStreamCancelToken = new CancellationTokenSource();
+            await foreach (var homeInfo in _homeInfoRepository.GetHomeInfoStreamAsync()
+                               .WithCancellation(_getHomeInfoStreamCancelToken.Token))
+            {
+                UpdateUI(homeInfo);
+            }
+        }
+
+        private void UpdateUI(HomeInfo homeInfo)
+        {
+            _view.UpdateCount(homeInfo.Count);
         }
 
         public EventChain OnEventHandle(IEvent param)

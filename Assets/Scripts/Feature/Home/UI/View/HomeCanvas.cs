@@ -1,10 +1,9 @@
 using Common.EventSystem;
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Feature.Home.View
+namespace Feature.Home.UI.View
 {
     public struct OnClickStartGameEvent : IEvent
     {
@@ -24,6 +23,7 @@ namespace Feature.Home.View
 
     public class HomeCanvas : MonoBehaviour, IMonoEventDispatcher
     {
+        // View
         [SerializeField] private Button playButton;
         [SerializeField] private CanvasGroup buttonCanvasGroup;
 
@@ -53,7 +53,7 @@ namespace Feature.Home.View
         private async void Start()
         {
             // 2초 대기 후 페이드 인 시작
-            await UniTask.Delay(2000);
+            // await UniTask.Delay(2000);
             buttonCanvasGroup.alpha = 1f;
             buttonCanvasGroup.interactable = true;
         }
@@ -62,6 +62,5 @@ namespace Feature.Home.View
         {
             increaseButton.GetComponentInChildren<TextMeshProUGUI>().text = count.ToString();
         }
-
     }
 }

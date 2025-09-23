@@ -1,22 +1,20 @@
 using System;
 
-namespace Feature.Home.Model
+namespace Feature.Home.UI.Model
 {
     public class CounterModel
     {
         public event Action<int> OnCountChanged;
         public int Count { get; private set; }
 
-        public CounterModel(int count, Action<int> onCountChanged)
+        public CounterModel(int count)
         {
             Count = count;
-            OnCountChanged = onCountChanged;
         }
 
         public void Increment()
         {
             Count++;
-            OnCountChanged?.Invoke(Count);
         }
     }
 }
