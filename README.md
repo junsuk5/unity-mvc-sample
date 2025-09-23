@@ -39,6 +39,9 @@
 
 위의 모든 설정이 완료되면 Unity 에디터에서 프로젝트를 열고 **Play 버튼**을 눌러 정상적으로 실행할 수 있습니다.
 
+<img width="275" height="486" alt="image" src="https://github.com/user-attachments/assets/faf99633-cc80-4984-a586-25b66dbfa2d0" />
+
+
 ---
 
 ## 🏛️ 아키텍처 개요
