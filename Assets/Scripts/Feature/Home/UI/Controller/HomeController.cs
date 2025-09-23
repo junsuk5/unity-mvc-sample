@@ -3,6 +3,7 @@ using System.Threading;
 using Common.EventSystem;
 using Common.Routes;
 using Cysharp.Threading.Tasks;
+using Feature.Home.Data.DataSource;
 using Feature.Home.Data.Model;
 using Feature.Home.Data.Repository;
 using Feature.Home.UI.Model;
@@ -30,7 +31,7 @@ namespace Feature.Home.UI.Controller
             _model = new CounterModel(0);
 
             // Repository
-            _homeInfoRepository = new MockHomeInfoRepository();
+            _homeInfoRepository = new HomeInfoRepository(new MockHomeDataSource());
         }
 
         private async void Start()

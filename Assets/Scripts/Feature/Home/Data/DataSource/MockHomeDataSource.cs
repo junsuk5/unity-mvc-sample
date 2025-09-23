@@ -3,9 +3,9 @@ using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using Feature.Home.Data.Model;
 
-namespace Feature.Home.Data.Repository
+namespace Feature.Home.Data.DataSource
 {
-    public class MockHomeInfoRepository: IHomeInfoRepository
+    public class MockHomeDataSource: IHomeDataSource<HomeInfo>
     {
         public UniTask<HomeInfo> GetHomeInfoAsync()
         {
