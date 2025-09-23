@@ -29,7 +29,8 @@ namespace Feature.Home.UI.View
 
         [SerializeField] private Button imageSearchButton;
         [SerializeField] private Button increaseButton;
-        [SerializeField] private Button helpButton;
+
+        [SerializeField] private RawImage rawImage;
 
         private void Awake()
         {
@@ -37,7 +38,7 @@ namespace Feature.Home.UI.View
             Debug.Assert(buttonCanvasGroup != null);
             Debug.Assert(imageSearchButton != null);
             Debug.Assert(increaseButton != null);
-            Debug.Assert(helpButton != null);
+            Debug.Assert(rawImage != null);
 
             // 버튼을 처음에 투명하게 설정
             buttonCanvasGroup.alpha = 0f;
@@ -46,7 +47,6 @@ namespace Feature.Home.UI.View
             playButton.onClick.AddListener(this.Emit<OnClickStartGameEvent>);
             imageSearchButton.onClick.AddListener(this.Emit<OnClickImageSearchEvent>);
             increaseButton.onClick.AddListener(this.Emit<OnClickIncreaseEvent>);
-            helpButton.onClick.AddListener(this.Emit<OnClickHelpEvent>);
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,6 +61,11 @@ namespace Feature.Home.UI.View
         public void UpdateCount(int count)
         {
             increaseButton.GetComponentInChildren<TextMeshProUGUI>().text = count.ToString();
+        }
+
+        public void UpdateImage(Texture2D texture)
+        {
+            rawImage.texture = texture;
         }
     }
 }

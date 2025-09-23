@@ -167,3 +167,5 @@ obj/
 Packages/
 *.nupkg
 *.snupkg
+
+google-services.json

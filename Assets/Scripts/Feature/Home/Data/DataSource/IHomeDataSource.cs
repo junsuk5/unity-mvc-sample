@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Feature.Home.Data.Model;
 
 namespace Feature.Home.Data.DataSource
 {

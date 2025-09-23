@@ -1,13 +1,16 @@
 using System;
 using System.Threading;
+using Common;
 using Common.EventSystem;
 using Common.Routes;
+using Common.Service;
 using Cysharp.Threading.Tasks;
 using Feature.Home.Data.DataSource;
 using Feature.Home.Data.Model;
 using Feature.Home.Data.Repository;
 using Feature.Home.UI.Model;
 using Feature.Home.UI.View;
+using Firebase.Firestore;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +20,8 @@ namespace Feature.Home.UI.Controller
     {
         // Repository
         private IHomeInfoRepository _homeInfoRepository;
+
+        private IImageDownloader _downloader;
 
         // Stream cancel token
         private CancellationTokenSource _getHomeInfoStreamCancelToken;
@@ -31,22 +36,38 @@ namespace Feature.Home.UI.Controller
             _model = new CounterModel(0);
 
             // Repository
-            _homeInfoRepository = new HomeInfoRepository(new MockHomeDataSource());
+            // _homeInfoRepository = new HomeInfoRepository(new MockHomeDataSource());
+            _homeInfoRepository =
+                new HomeInfoRepository(new FirestoreHomeDataSource(FirebaseFirestore.DefaultInstance));
+            _downloader = new UnityWebRequestImageDownloader();
         }
 
         private async void Start()
         {
             _getHomeInfoStreamCancelToken = new CancellationTokenSource();
-            await foreach (var homeInfo in _homeInfoRepository.GetHomeInfoStreamAsync()
+            await foreach (var result in _homeInfoRepository.GetHomeInfoStreamAsync()
                                .WithCancellation(_getHomeInfoStreamCancelToken.Token))
             {
-                UpdateUI(homeInfo);
+                if (result.IsSuccess)
+                {
+                    UpdateUI(result.Value);
+                }
+                else
+                {
+                    Debug.LogError("GetHomeInfoStreamAsync Error:");
+                }
             }
         }
 
-        private void UpdateUI(HomeInfo homeInfo)
+        private async void UpdateUI(HomeInfo homeInfo)
         {
             _view.UpdateCount(homeInfo.Count);
+
+            if (!string.IsNullOrWhiteSpace(homeInfo.PlayImageUrl))
+            {
+                var texture2D = await _downloader.DownloadImageAsync(homeInfo.PlayImageUrl);
+                _view.UpdateImage(texture2D);
+            }
         }
 
         public EventChain OnEventHandle(IEvent param)
