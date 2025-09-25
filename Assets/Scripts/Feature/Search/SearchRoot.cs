@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Feature.Search
 {
-    public class SearchCompositionRoot : MonoBehaviour
+    public class SearchRoot : MonoBehaviour
     {
         [SerializeField] private SearchController searchController;
         [SerializeField] private bool useMock;

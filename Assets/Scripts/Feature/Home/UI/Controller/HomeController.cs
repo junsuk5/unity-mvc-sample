@@ -5,6 +5,7 @@ using Common.EventSystem;
 using Common.Routes;
 using Common.Service;
 using Cysharp.Threading.Tasks;
+using Data.Repository;
 using Feature.Home.Data.DataSource;
 using Feature.Home.Data.Model;
 using Feature.Home.Data.Repository;
@@ -18,45 +19,32 @@ namespace Feature.Home.UI.Controller
 {
     public class HomeController : MonoBehaviour, IMonoEventListener
     {
-        // Repository
-        private IHomeInfoRepository _homeInfoRepository;
+        [SerializeField] private HomeCanvas _view;
 
         private IImageDownloader _downloader;
-
-        // Stream cancel token
-        private CancellationTokenSource _getHomeInfoStreamCancelToken;
-
-        [SerializeField] private HomeCanvas _view;
         private CounterModel _model;
 
         private void Awake()
         {
             Debug.Assert(_view != null, "HomeCanvas 참조가 필요합니다.");
-
-            _model = new CounterModel(0);
-
-            // Repository
-            // _homeInfoRepository = new HomeInfoRepository(new MockHomeDataSource());
-            _homeInfoRepository =
-                new HomeInfoRepository(new FirestoreHomeDataSource(FirebaseFirestore.DefaultInstance));
-            _downloader = new UnityWebRequestImageDownloader();
         }
 
-        private async void Start()
+        public void Initialize(IImageDownloader downloader, CounterModel model)
         {
-            _getHomeInfoStreamCancelToken = new CancellationTokenSource();
-            await foreach (var result in _homeInfoRepository.GetHomeInfoStreamAsync()
-                               .WithCancellation(_getHomeInfoStreamCancelToken.Token))
-            {
-                if (result.IsSuccess)
-                {
-                    UpdateUI(result.Value);
-                }
-                else
-                {
-                    Debug.LogError("GetHomeInfoStreamAsync Error:");
-                }
-            }
+            _model = model;
+            _downloader = downloader;
+
+            _model.OnHomeInfoChanged += UpdateUI;
+        }
+
+        private void Start()
+        {
+            _model.FetchHomeInfoStream();
+        }
+
+        private void OnDestroy()
+        {
+            _model.OnHomeInfoChanged -= UpdateUI;
         }
 
         private async void UpdateUI(HomeInfo homeInfo)
