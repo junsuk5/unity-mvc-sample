@@ -169,3 +169,25 @@ Packages/
 *.snupkg
 
 google-services.json
+
+# AI Development Tools
+# Claude Code
+.claude/
+CLAUDE.md
+claude.md
+
+# Cursor
+.cursor/
+.cursorrules
+
+# Warp
+.warp/
+
+# GitHub Copilot
+.copilot/
+
+# Other AI tools
+.gemini-clipboard/
+.utmp/
+AGENTS.md
+GEMINI.md

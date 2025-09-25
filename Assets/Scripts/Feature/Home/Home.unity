@@ -939,6 +939,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &970545907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 970545909}
+  - component: {fileID: 970545908}
+  m_Layer: 0
+  m_Name: HomeRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &970545908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970545907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab69aa63ee146d994fb9bf2afb217ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  homeController: {fileID: 1722151911}
+  useMock: 1
+--- !u!4 &970545909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970545907}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 440.6703, y: 1540.1675, z: -14.712963}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1722151910}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1486938024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,12 +1096,12 @@ Transform:
   m_GameObject: {fileID: 1722151909}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 236.25, y: 420, z: 0}
+  m_LocalPosition: {x: -204.42029, y: -1120.1675, z: 14.712963}
   m_LocalScale: {x: 0.5625, y: 0.5625, z: 0.5625}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 87490687}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 970545909}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1722151911
 MonoBehaviour:
@@ -1390,4 +1437,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1486938026}
   - {fileID: 607222090}
-  - {fileID: 1722151910}
+  - {fileID: 970545909}
